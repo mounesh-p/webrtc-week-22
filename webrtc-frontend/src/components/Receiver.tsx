@@ -27,6 +27,9 @@ export const Receiver = () =>{
 
                 pc.ontrack = (event) =>{
                     const video = document.createElement('video');
+                    video.muted = true;
+                    video.autoplay = true;
+                    video.playsInline = true;
                     document.body.appendChild(video);
                     video.srcObject = new MediaStream([event.track]);
                     video.play();
