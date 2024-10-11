@@ -25,13 +25,17 @@ export const Receiver = () =>{
                     }
                 }
 
-                pc.ontrack = (track) =>{
-                    console.log("track", track);
+                pc.ontrack = (event) =>{
+                    const video = document.createElement('video');
+                    document.body.appendChild(video);
+                    video.srcObject = new MediaStream([event.track]);
+                    video.play();
                 }
                 
                 const answer = await pc.createAnswer();
                 await pc.setLocalDescription(answer);
                 socket.send(JSON.stringify({ type: 'createAnswer', sdp: pc.localDescription }));
+
             } else if (message.type === 'iceCandidate'){
                 if(pc !== null){
                     // @ts-ignore
