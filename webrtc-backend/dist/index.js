@@ -15,21 +15,25 @@ wss.on('connection', function connection(ws) {
         // create answer
         // add ice candidate
         if (message.type === 'sender') {
+            console.log("sender set");
             senderSocket = ws;
         }
         else if (message.type === 'receiver') {
+            console.log("receiver set");
             receiverSocket = ws;
         }
         else if (message.type === 'createOffer') {
             if (ws !== senderSocket) {
                 return;
             }
+            console.log("offer received");
             receiverSocket === null || receiverSocket === void 0 ? void 0 : receiverSocket.send(JSON.stringify({ type: 'createOffer', sdp: message.sdp }));
         }
         else if (message.type === 'createAnswer') {
             if (ws !== receiverSocket) {
                 return;
             }
+            console.log("Answer received");
             senderSocket === null || senderSocket === void 0 ? void 0 : senderSocket.send(JSON.stringify({ type: 'createAnswer', sdp: message.sdp }));
         }
         else if (message.type === 'iceCandidate') {
@@ -41,7 +45,7 @@ wss.on('connection', function connection(ws) {
             }
         }
     });
-    setInterval(() => {
-        ws.send('something');
-    }, 1000);
+    // setInterval(()=>{
+    //     ws.send('something');
+    // },1000)
 });
